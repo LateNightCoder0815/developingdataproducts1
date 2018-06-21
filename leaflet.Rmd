@@ -1,0 +1,38 @@
+---
+title: "Leaflet Map: Visit Germany"
+author: "LateNightCoder0815"
+date: "21. June 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Visit Germany
+
+If you ever want to visit Germany please check out these three great cities! I attached some guides and links. The circle indicates the size of the population for comparison reasons.
+
+```{r }
+library(leaflet)
+
+## Define data frame (source: Wikipedia)
+niceCities <- data.frame(
+latitude = c(50.933594, 52.520008, 51.050407),
+longitude = c(6.961899, 13.404954, 13.737262),
+pop = c(1075935,3711930,547172))
+
+## Define links to city info
+cityInfo <- c(
+  "<a href='https://en.wikipedia.org/wiki/Cologne'>Cologne</a>",
+  "<a href='https://en.wikipedia.org/wiki/Berlin'>Berlin</a>",
+  "<a href='https://en.wikipedia.org/wiki/Dresden'>Dresden</a>"
+)
+
+## Build map and remove warnings about variable matching
+suppressMessages(niceCities %>%
+leaflet() %>%
+addTiles() %>%
+addMarkers(popup = cityInfo)%>%
+  addCircles(weight = 1, radius = sqrt(niceCities$pop) * 40))
+```
